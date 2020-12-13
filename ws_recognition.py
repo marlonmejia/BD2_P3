@@ -1,4 +1,5 @@
 import face_recognition
+import numpy as np
 from flask import Flask, jsonify, request, redirect
 
 # You can change this to any folder on your system
@@ -68,6 +69,7 @@ def detect_faces_in_image(file_stream):
     # Return the result as json
     result = {
         "rostro_encontrado_en_imagen": face_found,
+        "vector_caracteristico": unknown_face_encodings,
         "es_foto_de_vizcarra": is_vizcarra
     }
     return jsonify(result)
