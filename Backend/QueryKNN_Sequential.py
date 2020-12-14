@@ -7,7 +7,9 @@ import json
 
 imgdir = "LabeledFacesintheWild/"
 
-def knnSequential(Query, r, data):
+def knnSequential(Query, r):
+    with open('data.json') as file:
+        data = json.load(file)
     result = {}
     for i in data:
         for j in range(len(Query)):
@@ -24,13 +26,12 @@ def knnSequential(Query, r, data):
     return Result
 
 
-img = face_recognition.load_image_file("Test/img.png")
-unknown_face_encodings = face_recognition.face_encodings(img)
-with open('data.json') as file:
-    data = json.load(file)
+#img = face_recognition.load_image_file("Test/img.png")
+#unknown_face_encodings = face_recognition.face_encodings(img)
 
-query = list(unknown_face_encodings[0])
-for point in unknown_face_encodings[0]:
-    query.append(point)
 
-print(knnSequential(query, 100, data))
+#query = list(unknown_face_encodings[0])
+#for point in unknown_face_encodings[0]:
+#    query.append(point)
+
+#print(knnSequential(query, 100))

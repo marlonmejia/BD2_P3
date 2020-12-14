@@ -66,7 +66,7 @@
                 <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
               </div>
               <div class="custom-file">
-                <input type="file" class="custom-file-input" id="picture" aria-describedby="inputGroupFileAddon01">
+                <input type="file" class="custom-file-input" id="picture">
                 <label class="custom-file-label" for="picture">Choose file</label>
               </div>
             </div>
@@ -147,10 +147,14 @@
       document.getElementById('result').innerHTML="";
     }
     function searchData(){
-      var cont = $('#content').val();
-      $('#content').val('');
+      var RorK = $('#RorK').val();
+      var KNN = $('#KNN').val();
+      var picture = $('#picture').val();
+      $('#RorK').val('');
+      $('#KNN').val('');
+      $('#picture').val('');
       $.ajax({
-        url:'/search/'+cont,
+        url:'/search/'+RorK+'/'+KNN+'/'+picture,
         type:'GET',
         contentType: 'application/json',
         dataType:'json',
@@ -158,9 +162,9 @@
           //alert(JSON.stringify(response));
           var i = 0;
           $.each(response, function(){
-            f = '<div class="alert alert-primary">';
+            f = '<img src="';
             f = f + response[i];
-            f = f + '</div>';
+            f = f + '" class="img-fluid" alt="Responsive image">';
             i = i+1;
             $('#result').append(f);
           });
