@@ -4,6 +4,8 @@ from flask import Flask,render_template, request, session, Response, redirect
 import json
 import time
 
+from Backend.QueryKNN_Sequential import knnSequential
+
 #db = connector.Manager()
 #engine = db.createEngine()
 
@@ -19,7 +21,7 @@ def static_content(content):
 
 @app.route('/search/<content>', methods = ['GET'])
 def search(content):
-    data = []
+    data = knnSequential(content)
     with open('text.json') as file:
         text = json.load(file)
     response = {}
