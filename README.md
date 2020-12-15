@@ -44,17 +44,18 @@ En la parte de Indexación se utilizo rtree al momento de generar la consulta en
 
 ```python
 p = index.Property()
-    p.dimension = 128  # D
-    idx = index.Index(properties=p)
-    info = []
-    val = 0
-    for i in data:
-        points = data[i]
-        info.append(i)
-        for j in range(len(data[i])):
-            points.append(data[i][j])
-        idx.insert(val, points)
-        val += 1
+p.dimension = 128  # D
+idx = index.Index(properties=p)
+info = []
+val = 0
+```
+```python
+points = data[path]
+info.append(path)
+for j in range(len(data[path])):
+    points.append(data[path][j])
+idx.insert(val, points)
+val += 1
 ```
 
 [Codigo](https://github.com/marlonmejia/BD2_P3/blob/main/Backend/QueryKNN_RTree.py)
@@ -87,26 +88,39 @@ if file and allowed_file(file.filename):
     data = knnRtree(query, int(RorK))
 ```
 
-Luego de sacar los vectores caracteristicos se realiza la función de busqueda la cual por medio del archivo ```data.json``` obtiene los vectores caracteristicos de un grupo o de todos las imagenes de galeria. Con ello podemos crear el rtree y utilizar la busqueda de KNN-RTree. Esta función utiliza ```idx.nearest()``` para obtener la lista de imagenes obtenidas por medio de la busqueda KNN-RTree.
+Luego de sacar los vectores caracteristicos se realiza la función de busqueda la cual por medio del archivos ```.json``` obtiene los vectores caracteristicos de un grupo o de todos las imagenes de galeria. Con ello podemos crear el rtree y utilizar la busqueda de KNN-RTree. Esta función utiliza ```idx.nearest()``` para obtener la lista de imagenes obtenidas por medio de la busqueda KNN-RTree.
 
 
 ```python
-def knnRtree(Query, k):
-    with open('Backend/data.json') as file:
-        data = json.load(file)
+def knnRtree(Query, K):
     p = index.Property()
     p.dimension = 128  # D
     idx = index.Index(properties=p)
     info = []
+    Personas = listdir(imgdir)
     val = 0
-    for i in data:
-        points = data[i]
-        info.append(i)
-        for j in range(len(data[i])):
-            points.append(data[i][j])
-        idx.insert(val, points)
-        val += 1
-    result = list(idx.nearest(coordinates=list(Query), num_results=k))
+    for i in Personas:
+        fotos = [j for j in listdir(imgdir + i) if isfile(join(imgdir + i, j))]
+        for k in fotos:
+            name = k.split(".")[0]
+            if isfile(imgdir + i + '/' + name + '.json'):
+                with open(imgdir + i + '/' + name + '.json') as file:
+                    data = json.load(file)
+                path = imgdir + i + "/" + k
+                print(path)
+                if k != "data.json" and k != name + '.json':
+                    points = data[path]
+                    info.append(path)
+                    for j in range(len(data[path])):
+                        points.append(data[path][j])
+                    idx.insert(val, points)
+                    val += 1
+            if (val >= LIMIT):
+                break
+        if (val >= LIMIT):
+            break
+    print("Finish")
+    result = list(idx.nearest(coordinates=list(Query), num_results=K))
     Result = []
     for i in result:
         Result.append(info[i])
@@ -120,14 +134,27 @@ Asu vez con los mismos vectores caracteristicos se realiza la busqueda secuencia
 
 ```python
 def knnSequential(Query, r):
-    with open('Backend/data.json') as file:
-        data = json.load(file)
     result = {}
-    for i in data:
-        dist = face_recognition.face_distance([data[i]], Query)
-        if dist <= r:
-            result[i] = dist
-
+    Personas = listdir(imgdir)
+    val = 0
+    for i in Personas:
+        fotos = [j for j in listdir(imgdir + i) if isfile(join(imgdir + i, j))]
+        for k in fotos:
+            name = k.split(".")[0]
+            if isfile(imgdir + i + '/' + name + '.json'):
+                with open(imgdir + i + '/' + name + '.json') as file:
+                    data = json.load(file)
+                path = imgdir + i + "/" + k
+                print(path)
+                if k != "data.json" and k != name + '.json':
+                    dist = face_recognition.face_distance([data[path]], Query)
+                    if dist <= r:
+                        result[path] = dist
+                    val += 1
+            if (val >= LIMIT):
+                break
+        if (val >= LIMIT):
+            break
     Result = []
     result_sorted = sorted(result.items(), key=operator.itemgetter(1))
     for name in enumerate(result_sorted):
