@@ -5,7 +5,6 @@ from os import listdir
 from os.path import isfile, join
 import numpy as np
 import json
-from flask import Flask, jsonify, request, redirect
 
 imgdir = "LabeledFacesintheWild/"
 LIMIT = 100
