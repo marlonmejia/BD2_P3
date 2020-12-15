@@ -8,7 +8,7 @@ import json
 from flask import Flask, jsonify, request, redirect
 
 imgdir = "LabeledFacesintheWild/"
-LIMIT = 6400
+LIMIT = 100
 
 def knnRtree(Query, K, link = ""):
     p = index.Property()
@@ -38,7 +38,10 @@ def knnRtree(Query, K, link = ""):
         if (val >= LIMIT):
             break
     print("Finish")
+    start_time = time()
     result = list(idx.nearest(coordinates=list(Query), num_results=K))
+    elapsed_time = time() - start_time
+    print("Elapsed time: %0.10f seconds." % elapsed_time)
     Result = []
     for i in result:
         Result.append(info[i])
@@ -51,8 +54,5 @@ def knnRtree(Query, K, link = ""):
 #for point in unknown_face_encodings[0]:
 #    query.append(point)
 
-#start_time = time()
 #print(knnRtree(query, 3))
-#elapsed_time = time() - start_time
-#print("Elapsed time: %0.10f seconds." % elapsed_time)
 
