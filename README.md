@@ -7,7 +7,7 @@
 
 ## Base de Datos Multimedia
 
-Para este proyecto se tuvo como objetivo aplicar los conocimientos adquiridos con respecto a la
+Para este proyecto se tuvo como objetivo aplicar los conocimientos adquiridos con respecto a las bases de datos multimedia e indexación. Para la demostración y testeo del proyecto se empleó un repositorio publico de imagenes llamada "Labeled Faces in the Wild". Estas imagenes son fotos de gente famosa o importante, por ende se emplea data real 
 
 ## Frontend
 Para el frontend se utlizo un codigo de html por programado en pythony utilizado como retorno. Dicho codigo continen lo ensencial para realizar las busquedas nesesarias. Pidiendo el tipo de busqueda a realizar; si es secuencial pide el rango, si es rtree pide el k y obviamente la imagen a comparar.
@@ -39,8 +39,6 @@ Además las busquedas retornan una lista de imagenes ordenadas segun la distanci
 Para extraer las características de las imagenes se empleó el encoding que brindaba la libreria face-recognition. Este encoding nos retornaba un vector de 128 dimensiones por imagen, y es el que empleamos para realizar la indexación y la búsqueda. Así mismo cada vector está emparejado con el nombre de la persona a la cual pertenece cada 
 
 ![Alt text](/../main/README_IMGS/img.png?raw=true "Optional Title")
-![Alt text](/../main/README_IMGS/img_1.png?raw=true "Optional Title")
-![Alt text](/../main/README_IMGS/img_2.png?raw=true "Optional Title")
 
 ### Indexación
 
