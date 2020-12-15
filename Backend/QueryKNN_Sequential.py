@@ -8,7 +8,7 @@ from rtree import index
 import json
 
 imgdir = "LabeledFacesintheWild/"
-LIMIT = 12800
+LIMIT = 6400
 
 def knnSequential(Query, r):
     result = {}

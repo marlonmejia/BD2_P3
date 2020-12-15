@@ -8,7 +8,7 @@ import json
 from flask import Flask, jsonify, request, redirect
 
 imgdir = "LabeledFacesintheWild/"
-LIMIT = 12800
+LIMIT = 6400
 
 def knnRtree(Query, K):
     p = index.Property()
