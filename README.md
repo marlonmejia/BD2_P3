@@ -7,7 +7,7 @@
 
 ## Base de Datos Multimedia
 
-Para este proyecto se tuvo como objetivo aplicar los conocimientos adquiridos con respecto a la
+Para este proyecto se tuvo como objetivo aplicar los conocimientos adquiridos con respecto a las bases de datos multimedia e indexación. Para la demostración y testeo del proyecto se empleó un repositorio publico de imagenes llamada "Labeled Faces in the Wild". Estas imagenes son fotos reales de gente famosa o importante. Así mismo que se emplea gran cantidad de imagenes para una mejor prueba de desempeño.
 
 ## Frontend
 Para el frontend se utlizo un codigo de html por programado en pythony utilizado como retorno. Dicho codigo continen lo ensencial para realizar las busquedas nesesarias. Pidiendo el tipo de busqueda a realizar; si es secuencial pide el rango, si es rtree pide el k y obviamente la imagen a comparar.
