@@ -38,7 +38,9 @@ Además las busquedas retornan una lista de imagenes ordenadas segun la distanci
 ### Extracción de caracteristicas
 Para extraer las características de las imagenes se empleó el encoding que brindaba la libreria face-recognition. Este encoding nos retornaba un vector de 128 dimensiones por imagen, y es el que empleamos para realizar la indexación y la búsqueda. Así mismo cada vector está emparejado con el nombre de la persona a la cual pertenece cada 
 
-![Alt text](/../master/img.png?raw=true "Optional Title")
+![Alt text](/../main/README_IMGS/img.png?raw=true "Optional Title")
+![Alt text](/../main/README_IMGS/img_1.png?raw=true "Optional Title")
+![Alt text](/../main/README_IMGS/img_2.png?raw=true "Optional Title")
 
 ### Indexación
 
