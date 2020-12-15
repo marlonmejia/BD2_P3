@@ -19,8 +19,6 @@ def getImgChar(imgdir):
             encodings = face_recognition.face_encodings(foto)
             data[path] = list(encodings[0])
             val += 1
-            with open('data.json', 'w') as file:
-                json.dump(data, file)
         if(val >= 100):
             with open('data.json', 'w') as file:
                 json.dump(data, file)
