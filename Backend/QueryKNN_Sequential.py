@@ -1,4 +1,5 @@
 import face_recognition
+import operator
 import numpy as np
 from os import listdir
 from os.path import isfile, join
@@ -8,21 +9,19 @@ import json
 imgdir = "LabeledFacesintheWild/"
 
 def knnSequential(Query, r):
-    with open('data.json') as file:
+    with open('Backend/data.json') as file:
         data = json.load(file)
     result = {}
     for i in data:
-        for j in range(len(Query)):
-            dist = face_recognition.face_distance([data[i]], Query[j])
-            if dist < r:
-                result[i] = dist
-    Scores_items = result.items()
-    Scores_sorted = sorted(Scores_items, key=lambda coche: coche[1])
-    i = 0
-    Result = {}
-    for doc in Scores_sorted:
-        Result[doc[0]] = doc[1]
-        i += 1
+        dist = face_recognition.face_distance([data[i]], Query)
+        if dist <= r:
+            result[i] = dist
+
+    Result = []
+    result_sorted = sorted(result.items(), key=operator.itemgetter(1))
+    for name in enumerate(result_sorted):
+        print(result[name[1][0]])
+        Result.append(name[1][0])
     return Result
 
 
