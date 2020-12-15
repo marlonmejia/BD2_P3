@@ -87,8 +87,56 @@ if file and allowed_file(file.filename):
     data = knnRtree(query, int(RorK))
 ```
 
-Luego de sacar los vectores caracteristicos se realiza la función de busqueda la cual por medio del archivo ```data.json``` obtiene los vectores caracteristicos de un grupo o de todos los 
+Luego de sacar los vectores caracteristicos se realiza la función de busqueda la cual por medio del archivo ```data.json``` obtiene los vectores caracteristicos de un grupo o de todos las imagenes de galeria. Con ello podemos crear el rtree y utilizar la busqueda de KNN-RTree. Esta función utiliza ```idx.nearest()``` para obtener la lista de imagenes obtenidas por medio de la busqueda KNN-RTree.
 
+
+```python
+def knnRtree(Query, k):
+    with open('Backend/data.json') as file:
+        data = json.load(file)
+    p = index.Property()
+    p.dimension = 128  # D
+    idx = index.Index(properties=p)
+    info = []
+    val = 0
+    for i in data:
+        points = data[i]
+        info.append(i)
+        for j in range(len(data[i])):
+            points.append(data[i][j])
+        idx.insert(val, points)
+        val += 1
+    result = list(idx.nearest(coordinates=list(Query), num_results=k))
+    Result = []
+    for i in result:
+        Result.append(info[i])
+    return Result
+```
+
+[Codigo](https://github.com/marlonmejia/BD2_P3/blob/main/Backend/QueryKNN_RTree.py)
+
+Asu vez con los mismos vectores caracteristicos se realiza la busqueda secuencial la cual utiliza la función ```face_recognition.face_distance()``` para hallar la distancia euclidiana entre ambos vectores.
+
+
+```python
+def knnSequential(Query, r):
+    with open('Backend/data.json') as file:
+        data = json.load(file)
+    result = {}
+    for i in data:
+        dist = face_recognition.face_distance([data[i]], Query)
+        if dist <= r:
+            result[i] = dist
+
+    Result = []
+    result_sorted = sorted(result.items(), key=operator.itemgetter(1))
+    for name in enumerate(result_sorted):
+        print(result[name[1][0]])
+        Result.append(name[1][0])
+    return Result
+```
+
+[Codigo](https://github.com/marlonmejia/BD2_P3/blob/main/Backend/QueryKNN_Sequential.py)
 
 ### Resultados
 Para las pruebas intentaremos aplicar con una cierta cantidad de imagenes, siendo N el tamaño de la coleccion de imagenes a usar en la prueba.
