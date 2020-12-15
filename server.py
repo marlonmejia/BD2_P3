@@ -33,7 +33,6 @@ def upload_image():
             return redirect(request.url)
         if KNN == 'Sequential':
             if file and allowed_file(file.filename):
-                data = []
                 img = face_recognition.load_image_file(file)
                 unknown_face_encodings = face_recognition.face_encodings(img)[0]
                 data = knnSequential(unknown_face_encodings, int(RorK))
