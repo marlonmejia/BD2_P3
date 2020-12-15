@@ -143,11 +143,11 @@ Para las pruebas intentaremos aplicar con una cierta cantidad de imagenes, siend
 
 | Tiempo  | KNN - RTree  | KNN - Secuencial  |
 |---|---|---|
-| N = 100  |   |   |
-| N = 200  |   |   |
+| N = 100  | 0.1132431030  | 0.0147001743  |
+| N = 200  | 0.2450451851  | 0.0341603756  |
 | N = 400  |   |   |
 | N = 800  |   |   |
 | N = 1600  |   |   |
 | N = 3200  |   |   |
 | N = 6400  |   |   |
-| N = 12800  |   |   |
+| N = 12800  | 29.6217381954  | 4.3440961838  |

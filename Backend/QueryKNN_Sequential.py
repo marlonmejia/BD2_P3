@@ -8,16 +8,30 @@ from rtree import index
 import json
 
 imgdir = "LabeledFacesintheWild/"
+LIMIT = 12800
 
 def knnSequential(Query, r):
-    with open('Backend/data.json') as file:
-        data = json.load(file)
     result = {}
-    for i in data:
-        dist = face_recognition.face_distance([data[i]], Query)
-        if dist <= r:
-            result[i] = dist
-
+    Personas = listdir(imgdir)
+    val = 0
+    for i in Personas:
+        fotos = [j for j in listdir(imgdir + i) if isfile(join(imgdir + i, j))]
+        for k in fotos:
+            name = k.split(".")[0]
+            if isfile(imgdir + i + '/' + name + '.json'):
+                with open(imgdir + i + '/' + name + '.json') as file:
+                    data = json.load(file)
+                path = imgdir + i + "/" + k
+                print(path)
+                if k != "data.json" and k != name + '.json':
+                    dist = face_recognition.face_distance([data[path]], Query)
+                    if dist <= r:
+                        result[path] = dist
+                    val += 1
+            if (val >= LIMIT):
+                break
+        if (val >= LIMIT):
+            break
     Result = []
     result_sorted = sorted(result.items(), key=operator.itemgetter(1))
     for name in enumerate(result_sorted):
@@ -26,10 +40,10 @@ def knnSequential(Query, r):
     return Result
 
 
-#img = face_recognition.load_image_file("Test/img.png")
-#unknown_face_encodings = face_recognition.face_encodings(img)[0]
+img = face_recognition.load_image_file("Test/img.png")
+unknown_face_encodings = face_recognition.face_encodings(img)[0]
 
-#start_time = time()
-#print(knnSequential(unknown_face_encodings, 100))
-#elapsed_time = time() - start_time
-#print("Elapsed time: %0.10f seconds." % elapsed_time)
+start_time = time()
+print(knnSequential(unknown_face_encodings, 100))
+elapsed_time = time() - start_time
+print("Elapsed time: %0.10f seconds." % elapsed_time)
