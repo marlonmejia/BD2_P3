@@ -60,7 +60,10 @@ def upload_image():
                 data = []
                 img = face_recognition.load_image_file(file)
                 unknown_face_encodings = face_recognition.face_encodings(img)[0]
-                data = knnRtree(unknown_face_encodings, int(RorK))
+                query = list(unknown_face_encodings)
+                for point in unknown_face_encodings:
+                    query.append(point)
+                data = knnRtree(query, int(RorK))
                 results = '''
                     <!doctype html>
                     <title>Buscador</title>
