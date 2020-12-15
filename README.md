@@ -37,7 +37,33 @@ Además las busquedas retornan una lista de imagenes ordenadas segun la distanci
 ## Backend
 
 ### Extracción de caracteristicas
-Para extraer las características de las imagenes se empleó el encoding que brindaba la libreria face-recognition. Este encoding nos retornaba un vector de 128 dimensiones por imagen, y es el que empleamos para realizar la indexación y la búsqueda. Así mismo cada vector está emparejado con el nombre de la persona a la cual pertenece cada 
+Para extraer las características de las imagenes se empleó el encoding que brindaba la libreria face-recognition. Este encoding nos retornaba un vector de 128 dimensiones por imagen, y es el que empleamos para realizar la indexación y la búsqueda. Así mismo cada vector se está emparejado con el path de la imagen. Esto nos conviene debido a que podemos tener acceso más rápido a los path al momento de pasarlo al frontend.
+
+```python
+def getImgChar(imgdir):
+    Personas = listdir(imgdir)
+    val = 0
+    data = {}
+    for i in Personas:
+        fotos = [j for j in listdir(imgdir + i) if isfile(join(imgdir+i, j))]
+        for k in fotos:
+            path = imgdir + i + "/" + k
+            name = k.split(".")[0]
+            if k != "data.json" and k != name + '.json':
+                foto = face_recognition.load_image_file(path)
+                encodings = face_recognition.face_encodings(foto)
+                if len(encodings) > 0:
+                    data[path] = list(encodings[0])
+                    with open(imgdir + i + '/' + name + '.json', 'w') as file:
+                        json.dump(data, file)
+                    print(val)
+                    val += 1
+                    data.clear()
+        if(val >= LIMIT):
+            return
+```
+
+[Codigo](https://github.com/marlonmejia/BD2_P3/blob/main/Backend/ImgChar.py)
 
 ### Indexación
 En la parte de Indexación se utilizo rtree al momento de generar la consulta en python. Para esto se configuro el número de dimensiones a trabajar de 2 a 128 debido a face recognition. Además de insertar las caracateristicas de cada imagen extraida con anterioridad. 

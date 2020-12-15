@@ -5,6 +5,7 @@ from os.path import isfile, join
 from rtree import index
 import json
 
+LIMIT = 12800
 
 def getImgChar(imgdir):
     Personas = listdir(imgdir)
@@ -25,7 +26,7 @@ def getImgChar(imgdir):
                     print(val)
                     val += 1
                     data.clear()
-        if(val >= 12800):
+        if(val >= LIMIT):
             return
 
 

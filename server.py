@@ -11,6 +11,7 @@ from Backend.QueryKNN_Sequential import knnSequential
 from Backend.QueryKNN_RTree import knnRtree
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
+
 #db = connector.Manager()
 #engine = db.createEngine()
 
@@ -35,7 +36,7 @@ def upload_image():
             if file and allowed_file(file.filename):
                 img = face_recognition.load_image_file(file)
                 unknown_face_encodings = face_recognition.face_encodings(img)[0]
-                data = knnSequential(unknown_face_encodings, int(RorK))
+                data = knnSequential(unknown_face_encodings, int(RorK), "Backend/")
                 results = '''
                     <!doctype html>
                     <title>Buscador</title>
@@ -62,7 +63,7 @@ def upload_image():
                 query = list(unknown_face_encodings)
                 for point in unknown_face_encodings:
                     query.append(point)
-                data = knnRtree(query, int(RorK))
+                data = knnRtree(query, int(RorK), "Backend/")
                 results = '''
                     <!doctype html>
                     <title>Buscador</title>
