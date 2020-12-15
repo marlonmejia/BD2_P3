@@ -9,14 +9,16 @@ def knnRtree(Query, k):
         data = json.load(file)
     p = index.Property()
     p.dimension = 128  # D
-    idx = index.Index()
+    idx = index.Index(properties=p)
     result = []
     val = 0
     for i in data:
+        print(i)
         points = data[i]
-        for j in data:
+        for j in data[i]:
+            print(j)
             points.append(j)
-        print(points)
+        print(val)
         idx.insert(val, points)
         val += 1
     result = list(idx.nearest(coordinates=list(Query), num_results=k))

@@ -1,5 +1,6 @@
 import face_recognition
 import operator
+from time import time
 import numpy as np
 from os import listdir
 from os.path import isfile, join
@@ -9,7 +10,7 @@ import json
 imgdir = "LabeledFacesintheWild/"
 
 def knnSequential(Query, r):
-    with open('Backend/data.json') as file:
+    with open('data.json') as file:
         data = json.load(file)
     result = {}
     for i in data:
@@ -25,12 +26,10 @@ def knnSequential(Query, r):
     return Result
 
 
-#img = face_recognition.load_image_file("Test/img.png")
-#unknown_face_encodings = face_recognition.face_encodings(img)
+img = face_recognition.load_image_file("Test/img.png")
+unknown_face_encodings = face_recognition.face_encodings(img)[0]
 
-
-#query = list(unknown_face_encodings[0])
-#for point in unknown_face_encodings[0]:
-#    query.append(point)
-
-#print(knnSequential(query, 100))
+start_time = time()
+print(knnSequential(unknown_face_encodings, 100))
+elapsed_time = time() - start_time
+print("Elapsed time: %0.10f seconds." % elapsed_time)

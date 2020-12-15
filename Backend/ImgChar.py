@@ -21,10 +21,10 @@ def getImgChar(imgdir):
             val += 1
             with open('data.json', 'w') as file:
                 json.dump(data, file)
-        #if(val >= 100):
-            #with open('data.json', 'w') as file:
-                #json.dump(data, file)
-            #return
+        if(val >= 100):
+            with open('data.json', 'w') as file:
+                json.dump(data, file)
+            return
 
 
 getImgChar("LabeledFacesintheWild/")

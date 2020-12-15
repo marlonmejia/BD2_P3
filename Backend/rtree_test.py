@@ -4,11 +4,11 @@
 from rtree import index
 
 p = index.Property()
-p.dimension = 2 #D
+p.dimension = 128 #D
 p.buffering_capacity = 3 #M
 p.dat_extension = 'data'
 p.idx_extension = 'index'
-idx = index.Index('2d_index',properties=p)
+idx = index.Index('2d_index', properties=p)
 
 #insertar puntos
 idx.insert(0, (1,1,1,1))

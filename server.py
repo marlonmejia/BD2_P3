@@ -25,38 +25,47 @@ def upload_image():
     if request.method == 'POST':
         if 'file' not in request.files:
             return redirect(request.url)
-
+        KNN = request.form['KNN']
         RorK = request.form['RorK']
         file = request.files['file']
-
         if file.filename == '':
             return redirect(request.url)
-
-        if file and allowed_file(file.filename):
-            data = []
-            img = face_recognition.load_image_file(file)
-            unknown_face_encodings = face_recognition.face_encodings(img)[0]
-            data = knnSequential(unknown_face_encodings, int(RorK))
-            results = '''
-                <!doctype html>
-                <title>Buscador</title>
-                <h1>Buscador</h1>
-                <form method="POST" enctype="multipart/form-data">
-                  <input type="number" name="RorK">
-                  <input type="file" name="file">
-                  <input type="submit" value="Cargar">
-                </form>
-                '''
-            for d in data:
-                results += '''<img src="/static/''' + d + '''" class="img-fluid" alt="Responsive image">'''
-            return results
+        if KNN == 'Sequential':
+            if file and allowed_file(file.filename):
+                data = []
+                img = face_recognition.load_image_file(file)
+                unknown_face_encodings = face_recognition.face_encodings(img)[0]
+                data = knnSequential(unknown_face_encodings, int(RorK))
+                results = '''
+                    <!doctype html>
+                    <title>Buscador</title>
+                    <h1>Buscador</h1>
+                    <label for="cars">Busqueda KNN:</label>
+                    <select name="KNN" id="KNN" form="form">
+                      <option value="RTree">RTree</option>
+                      <option value="Sequential">Sequential</option>
+                    </select>
+                    <form method="POST" enctype="multipart/form-data" id="form">
+                      <input type="number" name="RorK">
+                      <input type="file" name="file">
+                      <input type="submit" value="Cargar">
+                    </form>
+                    '''
+                for d in data:
+                    results += '''<img src="/static/''' + d + '''" class="img-fluid" alt="Responsive image">'''
+                return results
 
     # If no valid image file was uploaded, show the file upload form:
     return '''
     <!doctype html>
     <title>Buscador</title>
     <h1>Buscador</h1>
-    <form method="POST" enctype="multipart/form-data">
+    <label for="cars">Busqueda KNN:</label>
+    <select name="KNN" id="KNN" form="form">
+      <option value="RTree">RTree</option>
+      <option value="Sequential">Sequential</option>
+    </select>
+    <form method="POST" enctype="multipart/form-data" id="form">
       <input type="number" name="RorK">
       <input type="file" name="file">
       <input type="submit" value="Cargar">
