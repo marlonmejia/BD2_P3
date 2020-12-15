@@ -8,6 +8,7 @@ import face_recognition
 import time
 
 from Backend.QueryKNN_Sequential import knnSequential
+from Backend.QueryKNN_RTree import knnRtree
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 #db = connector.Manager()
@@ -36,6 +37,30 @@ def upload_image():
                 img = face_recognition.load_image_file(file)
                 unknown_face_encodings = face_recognition.face_encodings(img)[0]
                 data = knnSequential(unknown_face_encodings, int(RorK))
+                results = '''
+                    <!doctype html>
+                    <title>Buscador</title>
+                    <h1>Buscador</h1>
+                    <label for="cars">Busqueda KNN:</label>
+                    <select name="KNN" id="KNN" form="form">
+                      <option value="RTree">RTree</option>
+                      <option value="Sequential">Sequential</option>
+                    </select>
+                    <form method="POST" enctype="multipart/form-data" id="form">
+                      <input type="number" name="RorK">
+                      <input type="file" name="file">
+                      <input type="submit" value="Cargar">
+                    </form>
+                    '''
+                for d in data:
+                    results += '''<img src="/static/''' + d + '''" class="img-fluid" alt="Responsive image">'''
+                return results
+        if KNN == 'RTree':
+            if file and allowed_file(file.filename):
+                data = []
+                img = face_recognition.load_image_file(file)
+                unknown_face_encodings = face_recognition.face_encodings(img)[0]
+                data = knnRtree(unknown_face_encodings, int(RorK))
                 results = '''
                     <!doctype html>
                     <title>Buscador</title>

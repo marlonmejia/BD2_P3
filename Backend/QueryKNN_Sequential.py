@@ -10,7 +10,7 @@ import json
 imgdir = "LabeledFacesintheWild/"
 
 def knnSequential(Query, r):
-    with open('data.json') as file:
+    with open('Backend/data.json') as file:
         data = json.load(file)
     result = {}
     for i in data:
@@ -26,10 +26,10 @@ def knnSequential(Query, r):
     return Result
 
 
-img = face_recognition.load_image_file("Test/img.png")
-unknown_face_encodings = face_recognition.face_encodings(img)[0]
+#img = face_recognition.load_image_file("Test/img.png")
+#unknown_face_encodings = face_recognition.face_encodings(img)[0]
 
-start_time = time()
-print(knnSequential(unknown_face_encodings, 100))
-elapsed_time = time() - start_time
-print("Elapsed time: %0.10f seconds." % elapsed_time)
+#start_time = time()
+#print(knnSequential(unknown_face_encodings, 100))
+#elapsed_time = time() - start_time
+#print("Elapsed time: %0.10f seconds." % elapsed_time)
